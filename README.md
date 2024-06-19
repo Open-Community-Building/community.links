@@ -1,6 +1,6 @@
 # community.links
 
-Here go the raw and unreviewd links you want to share.
+Here go the raw and unreviewed links you want to share.
 
 One link per line.
 
