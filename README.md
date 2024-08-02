@@ -11,3 +11,5 @@ https://www.afterbabel.com/p/community-based-childhoodit
 https://github.com/collective 
 
 https://www.xataka.com/servicios/foros-internet-estan-desapareciendo-porque-ahora-todo-reddit-discord-eso-preocupante
+
+https://www.afterbabel.com/p/the-upstream-cause-of-the-youth-mental
