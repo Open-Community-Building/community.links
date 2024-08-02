@@ -4,9 +4,11 @@ Here go the raw and unreviewed links you want to share.
 
 One link per line.
 
+Make sure to archive each document in http://archive.ph
+
 Once the link is integrated in the right place, it can be annotated with a link to its destination.
 
-https://www.afterbabel.com/p/community-based-childhoodit 
+https://www.afterbabel.com/p/community-based-childhood
 
 https://github.com/collective 
 
