@@ -1,17 +1,39 @@
 # community.links
 
-Here go the raw and unreviewed links you want to share.
+Make sure that links in your git repositories are archived on archive.org.
 
-One link per line.
+## Update git repositories
 
-Make sure to archive each document in http://archive.ph
+Look in the github.json config file for all Github repositories, and pull them.
 
-Once the link is integrated in the right place, it can be annotated with a link to its destination.
+    python git_pull.py      
 
-https://www.afterbabel.com/p/community-based-childhood
+## Extract urls from github repos
 
-https://github.com/collective 
+Go though all .md files in your the repositories, usung spaCy to check what looks like an URL.
 
-https://www.xataka.com/servicios/foros-internet-estan-desapareciendo-porque-ahora-todo-reddit-discord-eso-preocupante
+    python extract_urls.py
 
-https://www.afterbabel.com/p/the-upstream-cause-of-the-youth-mental
+## Check availability on archive.org
+
+Check whether the urls are already available on archive.org
+
+    python check_archive_org.py
+
+## Save to archive.org
+
+When a URL is not on archive.org, save it to archive.org
+
+    python save_to_archive.py
+
+## Fetch html from archive.org
+
+Once everything is on archive.org, fetch the HTML from there
+
+    python internet_archive.py
+
+## Produce Markdown from html
+
+Now produce the Markdown from the HTML using docling
+
+    python docling_from_ia.py
