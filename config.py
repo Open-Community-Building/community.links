@@ -1,6 +1,6 @@
 import os
 
-BASE_FOLDER = os.environ.get('COMMUNITY_LINKS_BASE_FOLDER'))
+BASE_FOLDER = os.environ.get('COMMUNITY_LINKS_BASE_FOLDER')
 
 DATA_FOLDER = BASE_FOLDER + "data/"
 CONFIG_FOLDER = BASE_FOLDER + "config/"
