@@ -3,7 +3,12 @@ from urllib.parse import quote
 import json
 from typing import Optional, Dict, Any
 from config import *
-
+from urllib.parse import urlparse
+from urllib.parse import urlunparse
+    
+def strip_scheme(url: str) -> str:
+    schemaless = urlparse(url)._replace(scheme='').geturl()
+    return schemaless[2:] if schemaless.startswith("//") else schemaless
 
 def is_url_archived(url: str) -> Dict[str, Any]:
     """
@@ -20,17 +25,18 @@ def is_url_archived(url: str) -> Dict[str, Any]:
         - 'total_snapshots': int - Total number of snapshots
         - 'error': str or None - Error message if any
     """
-    
     # Wayback Machine availability API endpoint
     api_url = "http://archive.org/wayback/available"
-    
+
     try:
         # Make request to check availability
         response = requests.get(api_url, params={'url': url}, timeout=10)
         response.raise_for_status()
         
         data = response.json()
-        
+
+        print(data)
+
         # Check if archived snapshots exist
         archived_snapshots = data.get('archived_snapshots', {})
         closest = archived_snapshots.get('closest', {})
@@ -111,6 +117,8 @@ def run(links):
     # Test URLs
     for url in links:
         print(f"\nChecking: {url}")
+        snapshots = get_snapshot_count(url)
+
         result = is_url_archived(url)
 
         if result['error']:
@@ -122,25 +130,21 @@ def run(links):
                 print(f"  Timestamp: {result['timestamp']}")
                 print(f"  Status: {result['status']}")
 
-                # Get detailed count (optional, slower)
-                count = get_snapshot_count(url)
-                print(f"  Total snapshots: {count}")
+                on_archive_list.append(url)
+                with open(ON_ARCHIVE, 'w') as on_archive_file:
+                    on_archive_file.write('\n'.join(on_archive_list))
 
-                if count is None:
-                    not_on_archive_list.append(url)
-                    with open(NOT_ON_ARCHIVE, 'w') as not_on_archive_file:
-                        not_on_archive_file.write('\n'.join(not_on_archive_list))
-                else:
+            else:
+                if snapshots:
+                    print(f"✓ Archived: Yes")
                     on_archive_list.append(url)
                     with open(ON_ARCHIVE, 'w') as on_archive_file:
                         on_archive_file.write('\n'.join(on_archive_list))
-
-            else:
-                print(f"✗ Archived: No")
-
-                not_on_archive_list.append(url)
-                with open(NOT_ON_ARCHIVE, 'w') as not_on_archive_file:
-                    not_on_archive_file.write('\n'.join(not_on_archive_list))
+                else:
+                    print(f"✗ Archived: No")
+                    not_on_archive_list.append(url)
+                    with open(NOT_ON_ARCHIVE, 'w') as not_on_archive_file:
+                        not_on_archive_file.write('\n'.join(not_on_archive_list))
 
             check_archive_list.remove(url)
             with open(CHECK_ARCHIVE, 'w') as check_archive_file:
